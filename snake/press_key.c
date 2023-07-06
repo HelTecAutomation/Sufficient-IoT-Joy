@@ -17,9 +17,8 @@ int press_key_get_key_val(void)
     FD_ZERO(&rfds);
     FD_SET(0, &rfds);
     tv.tv_sec = 0;
-    tv.tv_usec = 200*1000; //设置等待超时时间
+    tv.tv_usec = 200*1000; 
 
-    //检测键盘是否有输入
     if (select(1, &rfds, NULL, NULL, &tv) > 0)
     {
         ch = getchar();
@@ -30,18 +29,3 @@ int press_key_deinit(void)
 {
     system(STTY_DEF TTY_PATH);
 }
-
-// int main(){
-//     int ch = 0;
-
-//     while(1){
-//         ch = get_char();
-//         if(ch != 0){
-//             printf("%d\n\r",ch);
-//         }
-//         if(ch == 3){
-//             system(STTY_DEF TTY_PATH);
-//             return 0;
-//         }
-//     }
-// }

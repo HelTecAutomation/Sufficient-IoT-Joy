@@ -5,11 +5,10 @@ typedef struct {
   uint8_t r;
   uint8_t g;
   uint8_t b;
-}rgb_color_t;  //颜色结构体
+}rgb_color_t;  
 
-#define LED_NUM  64  // LED灯珠个数
+#define LED_NUM  (64)  
 
-// 常见颜色定义
 extern const rgb_color_t RGB_RED   ;
 extern const rgb_color_t RGB_BLUE  ;
 extern const rgb_color_t RGB_BLACK ;

@@ -12,8 +12,7 @@
 void *spi_target = NULL;
 #define LED_BYTES_NUM 24
 
-// 常见颜色定义
-const rgb_color_t RGB_RED   =  {255,   0,   0};
+const rgb_color_t RGB_RED   =  {100,   0,   0};
 const rgb_color_t RGB_BLUE  =  {  0,   0, 100};
 const rgb_color_t RGB_BLACK =  {0  ,   0,   0};
 const rgb_color_t RGB_GREEN =  {0  , 100,   0};
@@ -22,13 +21,10 @@ const rgb_color_t RGB_YELLOW = {128, 128,   0};
 const rgb_color_t RGB_PURPLE = { 66,    0, 160};
 const rgb_color_t RGB_CHARTREUSE = {173,255,47};
 
-// 模拟bit码: 0x80为逻辑0, 0xF8为逻辑1
-const uint8_t code[]={0XE0,0XF8};  //5:3
+const uint8_t code[]={0XE0,0XF8}; 
 
-// 灯颜色缓存
 rgb_color_t rgb_data[LED_NUM] = {0};
 
-// 转换后数据缓存
 uint8_t send_data[LED_NUM *LED_BYTES_NUM];
 
 void rgb_data_clear(void)
@@ -60,15 +56,11 @@ int  rgb_deinit(void)
     return ret;
 }
 
-/**
-  * @brief          控制WS2812
-  * @param[in]      待发送缓存
-  */
+
 void rgb_data_conversion( uint16_t led_id)
 {
     uint8_t rgb_buffer[24]={0};
     uint8_t dat_b,dat_r,dat_g;
-    // 将数组颜色转化为24个要发送的字节数据
     dat_g = rgb_data[led_id].g;
     dat_r = rgb_data[led_id].r;
     dat_b = rgb_data[led_id].b;
@@ -84,10 +76,7 @@ void rgb_data_conversion( uint16_t led_id)
     memcpy(send_data + led_id*LED_BYTES_NUM , rgb_buffer, LED_BYTES_NUM);
 }
 
-/**
-  * @brief          设置灯带颜色发送缓存
-  * @param[in]      ID 颜色
-  */
+
 void rgb_set_led_color(uint16_t led_id, rgb_color_t color)
 {
     rgb_data[led_id].g = color.g;
@@ -96,10 +85,6 @@ void rgb_set_led_color(uint16_t led_id, rgb_color_t color)
     rgb_data_conversion(led_id);
 }
 
-/**
-  * @brief          SPI发送控制ws2812
-  * @param[in]      待发送缓存
-  */
 void rgb_refresh(void)
 {
     spi_write(spi_target,  send_data, LED_BYTES_NUM*LED_NUM);
