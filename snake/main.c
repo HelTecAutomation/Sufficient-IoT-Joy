@@ -9,7 +9,6 @@
 #include "press_key.h"
 uint16_t coordinate_conversion(uint16_t original_coordinates);
 
-
 #define MAP_WIDE (10)
 #define MAP_HIGH (MAP_WIDE)
 #define MAP_AREA (MAP_WIDE * MAP_HIGH)
@@ -25,9 +24,6 @@ int main(int argc, char const *argv[])
 	for (i = walking_trajectory_tail_coordinates; i <= walking_trajectory_head_coordinates; ++i) walking_trajectory[i] = MAP_AREA;
 	for (i = 0; i < MAP_AREA; ++i ) 
 	{
-		/*初始化地图
-		i / MAP_WIDE % (MAP_HIGH - 1) 表示上下两侧的墙
-		i % MAP_WIDE % (MAP_WIDE - 1) 表示左右两侧的墙*/
 		map[i] = !(i / MAP_WIDE % (MAP_HIGH - 1) && i % MAP_WIDE % (MAP_WIDE - 1));
 	}
 	snake_head = MAP_WIDE / 2 * (MAP_HIGH + 1) - move_direction;
@@ -59,8 +55,6 @@ int main(int argc, char const *argv[])
             printf("i== %c move_direction==%d\r\n",i,move_direction);
 		}
 		snake_head += move_direction;
-		/*map[snake_head += move_direction] 撞墙和撞尾部检测，墙体是 1 ，蛇身是1，其余是0  ，
-		snake_head != walking_trajectory[walking_trajectory_tail_coordinates + 1] */
 		if (snake_head < 0 || map[snake_head] && snake_head != walking_trajectory[walking_trajectory_tail_coordinates + 1])
         {
             if ((snake_head / MAP_WIDE % (MAP_HIGH - 1)) ==0)
@@ -100,35 +94,25 @@ int main(int argc, char const *argv[])
                 break;
             }
         }
-		//如果蛇头坐标等于食物坐标，就需要重新生成食物坐标
 		if (snake_head == food)
         {
-			//新生成的食物坐标不能在墙上，或者蛇体上
 			for (food = rand() % MAP_AREA; map[food]; food = (food + 1) % MAP_AREA)
             {
 
             }
-			//展示食物所在坐标
-			// *(c = o + food * 2 + food / MAP_WIDE) = '0', c[1] = '0';
             rgb_set_led_color(coordinate_conversion(food),RGB_BLUE);
 		}
 		else
         {
-			//把蛇尾部的图形清除
 			map[i = walking_trajectory[walking_trajectory_tail_coordinates = (walking_trajectory_tail_coordinates + 1) % MAP_AREA]] = 0;
-			// *(c = o + i * 2 + i / MAP_WIDE) = ' ', c[1] = ' ';
             rgb_set_led_color(coordinate_conversion(i),RGB_BLACK);
 		}
-        //标记食物所在地
         rgb_set_led_color(coordinate_conversion(food),RGB_BLUE);
-		//把蛇身向前移动一格
 		map[walking_trajectory[walking_trajectory_head_coordinates] = snake_head] = 1, walking_trajectory_head_coordinates = (walking_trajectory_head_coordinates + 1) % MAP_AREA;
         rgb_set_led_color(coordinate_conversion(snake_head),RGB_RED);
-        // printf("snake_head = %d\r\n",snake_head);
         rgb_refresh();
 	}
-    printf("\nGame over!\n");
-    // rgb_deinit();
+    printf("\r\nGame over!\r\n");
     press_key_deinit();
 }
 
@@ -146,5 +130,3 @@ uint16_t coordinate_conversion(uint16_t original_coordinates)
 	temp = ((temp / conversion_base)*2 + 1) * conversion_base -1 - temp;
 	return temp;
 }
-
-

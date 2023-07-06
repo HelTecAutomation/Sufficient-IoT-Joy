@@ -1,6 +1,6 @@
 .PHONY:clean
 
-OBJS = main.o spi.o rgb_control.o 
+OBJS = main.o spi.o rgb_control.o  bh1750.o i2c.o
 
 main: $(OBJS)
 %.o : %.c

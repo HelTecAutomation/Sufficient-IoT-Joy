@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "rgb_control.h"
-#include "press_key.h"
 
 const uint8_t i_love_u_pattern[]=
 {
