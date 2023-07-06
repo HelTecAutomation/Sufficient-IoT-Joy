@@ -21,7 +21,7 @@ const rgb_color_t RGB_YELLOW = {128, 128,   0};
 const rgb_color_t RGB_PURPLE = { 66,    0, 160};
 const rgb_color_t RGB_CHARTREUSE = {173,255,47};
 
-const uint8_t code[]={0XE0,0XF8}; 
+const uint8_t code[]={0XE0,0XF8};  //5:3
 
 rgb_color_t rgb_data[LED_NUM] = {0};
 
@@ -75,7 +75,6 @@ void rgb_data_conversion( uint16_t led_id)
     }
     memcpy(send_data + led_id*LED_BYTES_NUM , rgb_buffer, LED_BYTES_NUM);
 }
-
 
 void rgb_set_led_color(uint16_t led_id, rgb_color_t color)
 {

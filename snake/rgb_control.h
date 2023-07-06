@@ -7,7 +7,7 @@ typedef struct {
   uint8_t b;
 }rgb_color_t;  
 
-#define LED_NUM  (64)  
+#define LED_NUM  64  
 
 extern const rgb_color_t RGB_RED   ;
 extern const rgb_color_t RGB_BLUE  ;
