@@ -1,6 +1,6 @@
 .PHONY:clean
 
-OBJS = main.o spi.o rgb_control.o press_key.o
+OBJS = main.o spi.o rgb_control.o 
 
 main: $(OBJS)
 %.o : %.c
